@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang = "ru">
+  <head>
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block css %}{% endblock %}
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <header>
+        <a class="logo" href={% url "main:index" %}><img src="{% static "img/logo.png" %}" alt="Логотип"></a>
+        <ul class="verh">
+
+
+            {% if user.is_authenticated %}
+
+            <li><a href={% url "persaccount:event_create" %}><img src="{% static "img/sozdmr.png" %}" alt="Создать мероприятие"></a></li>
+            <li class="notifications-container">
+                <div class="notifications-icon">
+                    <img src="{% static "img/kolokol.png" %}" alt="Уведомления">
+                    <div class="notifications-dropdown">
+                        <div class="notification-item">
+                            <div class="notification-date">31.05.2025</div>
+                            <div class="notification-text">В разработке ;)</div>
+                            <div class="notification-time">12:30</div>
+                        </div>
+                    </div>
+                
+                </div>
+            </li>
+            <li class="nickname-container">
+                <div class="nickname">
+                    <p>{{user.username}}</p>
+                    <div class="profile-dropdown">
+                        <a href="#"><img class="" width=46px height=46px src="{% if user.image %}{{user.image.url}}{% else %}{% static "img/notfound.png" %}{% endif %}" alt="PNG"> <span class="profile-name">{{user.username}}</span><br><br><span class="full-name">{{user.first_name}} {{user.last_name}}</span></a>
+                        <a href={% url "users:lk_settings" %}>Настройки пользователя</a>
+                        <a href="chats.html">Чаты</a>
+                        <a href={% url "users:logout" %}>Выйти из профиля</a>
+                    </div>
+                </div>
+            </li>
+            <a href="#"><img class="" width=46px height=46px src="{% if user.image %}{{user.image.url}}{% else %}{% static "img/notfound.png" %}{% endif %}" alt="PNG"></a>
+
+            {% else %}
+            <li class="nickname-container">
+                <div class="nickname">
+                    <a href={% url "users:login" %} class="login-button">Войти</a>
+                </div>
+            </li>
+            {% endif %}
+
+
+        </ul>
+    </header>
+
+    {% block content %}{% endblock %}
+
+     <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <a href={% url "main:index" %}><img src="{% static "img/logo.png" %}" alt="Логотип"></a>
+                <p>Объединяем фанатов аниме и японской культуры через совместные встречи и мероприятия</p>
+            </div>
+            <div class="footer-section">
+                <h3>Навигация</h3>
+                <a href={% url "main:index" %}>Главная</a>
+                <a href={% url "persaccount:meets" %}>События</a>
+                <a href={% url "persaccount:kalendar" %}>Календарь</a>
+            </div>
+            <div class="footer-section">
+                <h3>Функции</h3>
+                <a href={% url "persaccount:event_create" %}>Создание мероприятий</a>
+                <a href={% url "persaccount:meets" %}>Поиск событий</a>
+                <a href="#">Чат событий</a>
+            </div>
+            <div class="footer-section">
+                <h3>Поддержка</h3>
+                <a href="#">Контакты</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>©2025 AniMeet</p>
+                <img src="{% static "img/girl.png" %}" alt="Девочка" class="footer-girl">
+            </div>
+            <div class="right-links">
+                <p><a href="#">Политика конфиденциальности</a></p>
+                <p><a href="#">Поддержать авторов</a></p>
+            </div>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+
+  </body>
+</html>

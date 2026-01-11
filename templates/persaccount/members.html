@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static "css/event-members.css" %}">{% endblock css %}
+
+{% block content %}
+    <main>
+        <div class="content-wrapper">
+            <aside class="sidebar">
+                <ul class="nav-menu">
+                    <li><a href={% url "persaccount:kalendar" %}>Календарь мероприятий</a></li>
+                    <li><a href={% url "persaccount:meets" %}>Мероприятия</a></li>
+                    <li><a href="#">Чаты</a></li>
+                    <li><a href={% url "users:lk_settings" %}>Настройки пользователя</a></li>
+                </ul>
+            </aside>
+            
+            <div class="main-content">
+                <h1>Участники мероприятия <span class="participants-count">{{participants.count}}</span></h1>
+                
+                <div class="participants-grid">
+
+
+                    {% for participant in participants %}
+                    <div class="participant">
+                        <img width=153px height=153px src="{% if participant.user.image %}{{participant.user.image.url}}{% else %}{% static "img/notfound.png" %}{% endif %}" alt="Участник" class="participant-avatar">
+                        <div class="participant-name">{{ participant.user.username }}</div>
+                    </div>
+                    {% empty %}
+                        <p>Пока нет участников</p>
+                    {% endfor %}
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальное окно с информацией об участнике -->
+    <div class="member-modal" id="member-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <img src="" alt="Аватар" class="modal-avatar">
+                <div class="modal-header-info">
+                    <div class="modal-nickname"></div>
+                    <button class="write-button">Написать</button>
+                    <div class="modal-fullname">
+                        <span class="modal-firstname"></span>
+                        <span class="modal-lastname"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="member-details">
+                    <div class="detail">
+                        <span class="detail-label">Город:</span>
+                        <span class="detail-value member-city"></span>
+                    </div>
+                    <div class="detail">
+                        <span class="detail-label">Почта:</span>
+                        <span class="detail-value member-email"></span>
+                    </div>
+                    <div class="detail">
+                        <span class="detail-label">Телефон:</span>
+                        <span class="detail-value member-phone"></span>
+                    </div>
+                    <div class="detail">
+                        <span class="detail-label">О себе:</span>
+                        <span class="detail-value member-about"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static "js/common.js" %}"></script>
+    <script src="{% static "js/event-members.js" %}"></script>
+{% endblock scripts %}

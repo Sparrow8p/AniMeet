@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href={% static "css/event-info.css" %}>{% endblock css %}
+
+{% block content %}
+    <main>
+        <div class="content-wrapper">
+            <aside class="sidebar">
+                <ul class="nav-menu">
+                    <li><a href={% url "persaccount:kalendar" %}>Календарь мероприятий</a></li>
+                    <li><a href={% url "persaccount:meets" %}>Мероприятия</a></li>
+                    <li><a href="#">Чаты</a></li>
+                    <li><a href={% url "users:lk_settings" %}>Настройки пользователя</a></li>
+                </ul>
+            </aside>
+            
+            <section class="main-content">
+                <h1>Информация о мероприятии</h1>
+                
+                <div class="event-info-container">
+                    <div class="event-main">
+                        <form method="post" action="{% url "persaccount:meet_info" meet.slug %}" class="event-card">
+    {% csrf_token %}
+    
+    <div class="event-image">
+        <img src={{ meet.image.url }} class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1" alt={{ meet.name }}>
+    </div>
+    <div class="event-details">
+        <h3>{{ meet.name }}</h3>
+        <div class="event-meta">
+            <div class="event-meta-item">
+                <img src="{% static "img/Дата.png" %}" alt="Дата" class="meta-icon">
+                <span class="event-date">{{ meet.date }}</span>
+            </div>
+            <div class="event-meta-item">
+                <img src="{% static "img/Время.png" %}" alt="Время" class="meta-icon">
+                <span class="event-time">{{ meet.start_time }} - {{ meet.end_time }}</span>
+            </div>
+            <div class="event-meta-item">
+                <img src="{% static "img/Локация.png" %}" alt="Место" class="meta-icon">
+                <span class="event-location">{{ meet.address }}</span>
+            </div>
+        </div>
+        <div class="event-participants">
+            <span>Участников: {{ participants_count }} из {{ meet.quantity }}</span>
+        </div>
+        {% if is_registered %}
+            <button type="button" class="event-button registered" disabled>Вы записаны</button>
+        {% else %}
+            <button type="submit" class="event-button" id="event-register-btn">
+                {% if participants_count < meet.quantity %}Записаться{% else %}Мест нет{% endif %}
+            </button>
+        {% endif %}
+    </div>
+</form>
+
+<!-- Добавьте этот код для отображения сообщений -->
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+                        
+                        <div class="event-actions">
+                            <a href={% url "persaccount:members" meet.slug %} class="event-action">Посмотреть список участников</a>
+                            <a href="#" class="event-action">Написать организатору мероприятия</a>
+                            <a href="#" class="event-action">Открыть чат мероприятия</a>
+                        </div>
+                    </div>
+                    
+                    <div class="event-description">
+                        <h2 class="description-title">Описание мероприятия</h2>
+                        {% comment %} <h3 class="program-title">ПРОГРАММА ФЕСТИВАЛЯ</h3>
+                        <ol class="program-list">
+                            <li>Открытие мероприятия. Объявление программы.</li>
+                            <li>Первая часть дефиле.</li>
+                            <li>Конкурс "найди сердечко" от Aniworld (Приз - фигурка).</li>
+                            <li>Джаст денс (Участникам наборы стикеров).</li>
+                            <li>Викторина по разным аниме (С призами).</li>
+                            <li>Вторая часть дефиле.</li>
+                            <li>Конкурсы по разным аниме (С призами).</li>
+                            <li>Объявление победителей дефиле.</li>
+                        </ol>
+                        
+                        <h3 class="awards-title">Вручения:</h3>
+                        <ul class="awards-list">
+                            <li><strong>1 место</strong> - Кубок + Диплом + Фигурка + Подарки от мастеров маркета</li>
+                            <li><strong>2 место</strong> - Диплом + Набор стикеров + Набор значков + Подарки от мастеров маркета</li>
+                            <li><strong>3 место</strong> - Диплом + Набор стикеров + Подарки от мастеров маркета</li>
+                        </ul>
+                        
+                        <p class="closing-info">Объявление и закрытие фестиваля (Общее фото)</p>
+                        
+                        <h3 class="additional-title">В свободное время для посетителей будут организованы:</h3>
+                        <ol class="additional-list">
+                            <li>Различные игры.</li>
+                            <li>Стенды и фотозоны.</li>
+                            <li>Маркет с различными товарами.</li>
+                            <li>Фудкорт зона с различными кафешками.</li>
+                        </ol> {% endcomment %}
+                        {{ meet.description }}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static "js/common.js" %}"></script>
+    {% comment %} <script src="{% static "js/event-info.js" %}"></script> {% endcomment %}
+{% endblock scripts %}

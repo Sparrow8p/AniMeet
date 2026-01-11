@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/options.css' %}">{% endblock css %}
+
+{% block content %}
+    <main>
+        <div class="content-wrapper">
+            <aside class="sidebar">
+                <ul class="nav-menu">
+                    <li><a href={% url "persaccount:kalendar" %}>Календарь мероприятий</a></li>
+                    <li><a href={% url "persaccount:meets" %}>Мероприятия</a></li>
+                    <li><a href="#">Чаты</a></li>
+                    <li><a href="#">Настройки пользователя</a></li>
+                </ul>
+            </aside>
+            <div class="main-content">
+                <div class="avatar-section">
+                    <div class="avatar-container">
+                        <img id="avatar-preview" class="avatar-img" src="{% if user.image %}{{user.image.url}}{% else %}{% static 'img/notfound.png' %}{% endif %}" alt="Аватар">
+                    </div>
+                    <div class="avatar-upload">
+                        <input type="file" id="id_image" name="image" class="avatar-upload-input" accept="image/*">
+                        <label for="id_image" name="image" class="avatar-upload-label">Изменить</label>
+                    </div>
+                </div>
+
+                <form class="settings-form" action={% url "users:lk_settings" %} method="post">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="id_username">Логин</label>
+                        <input type="text" id="id_username" name="username"
+                        value="{{ form.username.value }}" placeholder="AniMeet_User_:D">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Имя и Фамилия</label>
+                        <div class="name-fields-wrapper">
+                            <div class="name-fields">
+                                <div class="form-group">
+                                    <label for="id_first_name">Имя</label>
+                                    <input type="text" id="id_first-name" name="first_name"
+                                    {% if form.first_name.value %}value={{ form.first_name.value }}{% endif %} placeholder="Иван">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_last_name">Фамилия</label>
+                                    <input type="text" id="id_last-name" name="last_name"
+                                    {% if form.last_name.value %}value={{ form.last_name.value }}{% endif %} placeholder="Иванов">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_user_info">О себе</label>
+                        <textarea id="id_user_info" name="user_info" 
+                        {% if form.user_info.value %}value={{ form.user_info.value }}{% endif %} placeholder="Не более 300 символов"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_city">Город</label>
+                        <input type="text" id="id_city" name="city" 
+                        {% if form.city.value %}value={{ form.city.value }}{% endif %} placeholder="Москва">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_email">Почта</label>
+                        <input type="email" id="id_email" name="email" 
+                        {% if form.email.value %}value={{ form.email.value }}{% endif %} placeholder="prime123@gmail.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_phone">Номер телефона</label>
+                        <input type="tel" id="id_phone" name="phone"
+                        {% if form.phone.value %}value={{ form.phone.value }}{% endif %} placeholder="12345678910">
+                    </div>
+
+                    <button type="submit" class="save-btn">Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
+    
+{% block scripts %}
+    <script src="{% static 'js/common.js' %}"></script>
+    <script>
+        document.getElementById('avatar-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('avatar-preview').src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+{% endblock scripts %}

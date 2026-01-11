@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static "css/glav.css" %}">{% endblock css %}
+
+{% block content %}
+    <main>
+        <section class="hero">
+            <img src="{% static "img/backGirl1.png" %}" alt="" class="hero-girl left">
+            <img src="{% static "img/backGirl2.png" %}" alt="" class="hero-girl right">
+            <img src="{% static "img/star.svg" %}" alt="" class="hero-star">
+            <h1>Объединяем фанатов аниме</h1>
+            <p class="hero-subtitle">Находите встречи, фестивали и мероприятия<br>для любителей аниме и японской культуры</p>
+            <div class="hero-buttons">
+                <a href="{% if user.is_authenticated %}{% url "persaccount:meets" %}{% else %}{% url "users:login" %}{% endif %}" class="hero-button">
+                    <img src="{% static "img/naiti.svg" %}" alt=""> Найти мероприятия
+                </a>
+                <a href="{% if user.is_authenticated %}{% url "persaccount:event_create" %}{% else %}{% url "users:login" %}{% endif %}" class="hero-button">
+                    <img src="{% static "img/sozdat.svg" %}" alt=""> Создать событие
+                </a>
+            </div>
+        </section>
+
+        <section class="calendar-section">
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button class="month-nav" id="prev-month">&lt;</button>
+                    <h2 id="current-month">Июнь 2025</h2>
+                    <button class="month-nav" id="next-month">&gt;</button>
+                    
+                    <div class="calendar-filters">
+                        <div class="filter-group">
+                            <input type="text" placeholder="Город" id="city-input">
+                            <div class="dropdown" id="city-dropdown"></div>
+                        </div>
+                        <div class="filter-group">
+                            <select id="category-select">
+                                <option value="">Все категории</option>
+                                <option value="anime">Просмотр аниме</option>
+                                <option value="meetup">Встречи</option>
+                                <option value="cosplay">Косплей</option>
+                                <option value="festival">Фестиваль</option>
+                                <option value="other">Другое</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="calendar-wrapper">
+                    <table class="calendar" id="calendar">
+                        <thead>
+                            <tr>
+                                <th>Пн</th>
+                                <th>Вт</th>
+                                <th>Ср</th>
+                                <th>Чт</th>
+                                <th>Пт</th>
+                                <th>Сб</th>
+                                <th>Вс</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendar-body"></tbody>
+                    </table>
+                </div>
+                <div class="calendar-legend">
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <span class="legend-color today-legend"></span>
+                            <span>Сегодня</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color has-event-legend"></span>
+                            <span>Событие</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color user-event-legend"></span>
+                            <span>Ваше событие</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2>Преимущества AniMeet для аниме-энтузиастов</h2>
+            <p class="features-description">AniMeet объединяет любителей аниме, манги и японской культуры, предлагая удобные инструменты для организации и участия в событиях</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <img src="{% static "img/Календарь.png" %}" alt="Календарь">
+                    <h4>Удобный календарь событий</h4>
+                    <p>Быстро находите ближайшие мероприятия и планируйте своё участие.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{% static "img/Добавить.png" %}" alt="Добавить">
+                    <h4>Создание собственных мероприятий</h4>
+                    <p>Организуйте уникальные события и приглашайте единомышленников.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{% static "img/Чат.png" %}" alt="Чат">
+                    <h4>Инструменты для общения</h4>
+                    <p>Знакомьтесь и общайтесь с другими фанатами аниме.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{% static "img/Сердце.png" %}" alt="Сердце">
+                    <h4>Совместный досуг</h4>
+                    <p>Участвуйте в групповых обсуждениях, косплей-фестах и киносмотрах.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="community">
+            <h2>Готовы присоединиться к сообществу?</h2>
+            <p class="community-subtitle">Создавайте события, находите единомышленников и погружайтесь в мир аниме вместе с AniMeet</p>
+            
+            <div class="community-gallery">
+                <div class="gallery-item"><img src="{% static "img/one.png" %}" alt="Мероприятие 1"></div>
+                <div class="gallery-item"><img src="{% static "img/two.png" %}" alt="Мероприятие 2"></div>
+                <div class="gallery-item"><img src="{% static "img/three.png" %}" alt="Мероприятие 3"></div>
+                <div class="gallery-item"><img src="{% static "img/four.png" %}" alt="Мероприятие 4"></div>
+            </div>
+            
+            <p class="community-text">AniMeet - это не просто сайт, это комьюнити! Загляни за кулисы и увидишь, как живут и чем дышат аниме-энтузиасты твоего города. Скорее вливайся в нашу дружную компанию!</p>
+            {% if not user.is_authenticated %}
+            <div class="community-button">
+                <a href={% url "users:registration" %} class="cta-button">Попробовать бесплатно</a>
+            </div>
+            {% endif %}
+        </section>
+    </main>
+
+      <!-- Модальное окно мероприятия -->
+    <div class="modal-overlay" id="event-modal" style="display: none;">
+        <div class="modal">
+            <div class="modal-image-container">
+                <img src="{% static "img/titan-event.png" %}" alt="Изображение мероприятия" id="modal-event-image">
+            </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modal-event-title">Просмотр фильма "Атака титанов: Заключительная глава"</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="event-details">
+                    <div class="event-meta">
+                        <div>
+                            <span class="event-icon"><img src="{% static "img/Дата.png" %}" alt="Дата"></span>
+                            <span id="modal-event-date">18.06.2025</span>
+                        </div>
+                        <div>
+                            <span class="event-icon"><img src="{% static "img/Время.png" %}" alt="Время"></span>
+                            <span id="modal-event-time">18:30 - 21:00</span>
+                        </div>
+                        <div>
+                            <span class="event-icon"><img src="{% static "img/Локация.png" %}" alt="Локация"></span>
+                            <span id="modal-event-location">Санкт-Петербург, кинотеатр "Аврора"</span>
+                        </div>
+                    </div>
+                    <div class="event-participants">
+                        <span id="modal-event-participants">Участников: 18 из 25</span>
+                    </div>
+                    <button class="event-button" id="modal-event-button">Подробнее</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+    
+
+{% block scripts %}<script src="{% static "js/glav.js" %}"></script>{% endblock scripts %}

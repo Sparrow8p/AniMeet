@@ -1,0 +1,50 @@
+[
+    {
+        "model": "persaccount.categories",
+        "pk": 1,
+        "fields": {
+            "name": "Просмотр аниме",
+            "slug": "prosmotr-anime"
+        }
+    },
+    {
+        "model": "persaccount.categories",
+        "pk": 2,
+        "fields": {
+            "name": "Встреча фанатов",
+            "slug": "vstrecha-fanatov"
+        }
+    },
+    {
+        "model": "persaccount.categories",
+        "pk": 3,
+        "fields": {
+            "name": "Косплей",
+            "slug": "kosplej"
+        }
+    },
+    {
+        "model": "persaccount.categories",
+        "pk": 4,
+        "fields": {
+            "name": "Фестиваль",
+            "slug": "festival"
+        }
+    },
+    {
+        "model": "persaccount.categories",
+        "pk": 5,
+        "fields": {
+            "name": "Игровая встреча",
+            "slug": "igrovaya-vstrecha"
+        }
+    },
+    {
+        "model": "persaccount.categories",
+        "pk": 6,
+        "fields": {
+            "name": "Другое",
+            "slug": "drugoe"
+        }
+    }
+]

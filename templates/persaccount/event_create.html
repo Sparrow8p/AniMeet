@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/event-create.css' %}">{% endblock css %}
+
+{% block content %}
+    <main>
+        <div class="content-wrapper">
+            <!-- Боковое меню (как в мероприятиях) -->
+            <aside class="sidebar">
+                <ul class="nav-menu">
+                    <li><a href={% url "persaccount:kalendar" %}>Календарь мероприятий</a></li>
+                    <li><a href={% url "persaccount:meets" %}>Мероприятия</a></li>
+                    <li><a href="chats.html">Чаты</a></li>
+                    <li><a href={% url "users:lk_settings" %}>Настройки пользователя</a></li>
+                </ul>
+            </aside>
+
+            <!-- Основной контент -->
+            <div class="main-content">
+                <h1>Создание мероприятия</h1>
+                
+                <div class="create-wrapper">
+                    <!-- Форма создания -->
+                    <div class="create-form-container">
+                        <form action={% url "persaccount:event_create" %} method="post" class="create-form" id="event-form" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            
+                            <!-- Блок 1: Основная информация -->
+                            <div class="form-section">
+                                <h2>Основная информация</h2>
+                                <div class="form-group">
+                                    <label>Название мероприятия</label>
+                                    {{form.name}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Описание мероприятия</label>
+                                    {{form.description}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Иллюстрация карточки мероприятия</label>
+                                    <div class="upload-group">
+                                        {{form.image}}
+                                        <label for="event-image" class="upload-btn">Выбрать файл</label>
+                                        <span id="event-image-name" style="color: #BB86FC; font-size: 14px;">Файл не выбран</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Блок 2: Дата и время -->
+                            <div class="form-section">
+                                <h2>Дата и время</h2>
+                                <div class="form-group">
+                                    <label>Дата проведения</label>
+                                    {{form.date}}
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Начало мероприятия</label>
+                                        {{form.start_time}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Конец мероприятия</label>
+                                        {{form.end_time}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Блок 3: Место и участники -->
+                            <div class="form-section">
+                                <h2>Место и участники</h2>
+                                <div class="form-group">
+                                    <label>Адрес проведения</label>
+                                    {{form.address}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Максимум участников</label>
+                                    {{form.quantity}}
+                                </div>
+                            </div>
+
+                            <!-- Блок 4: Чат мероприятия -->
+                            <div class="form-section">
+                                <h2>Чат мероприятия</h2>
+                                <div class="form-group">
+                                    <label>Название чата мероприятия</label>
+                                    {{form.chat_name}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Иллюстрация чата мероприятия</label>
+                                    <div class="upload-group">
+                                        {{form.chat_image}}
+                                        <label for="event-chat-image" class="upload-btn">Выбрать файл</label>
+                                        <span id="event-chat-image-name" style="color: #BB86FC; font-size: 14px;">Файл не выбран</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Категория</label>
+                                    {{form.category}}
+                                </div>
+                                <span>{{error}}</span>
+                                <button type="submit" class="create-btn">Создать мероприятие</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Превью карточки -->
+                    <div class="preview-container">
+                        <div class="preview-title">Предпросмотр карточки</div>
+                        <div class="preview-card">
+                            <div class="preview-image" id="preview-image">
+                                <span>Изображение мероприятия</span>
+                            </div>
+                            <div class="preview-details">
+                                <h3 id="preview-title">Название мероприятия</h3>
+                                <div class="preview-meta">
+                                    <div>
+                                        <img src="{% static 'img/Дата.png' %}" alt="Дата">
+                                        <span id="preview-date">Дата не указана</span>
+                                    </div>
+                                    <div>
+                                        <img src="{% static 'img/Время.png' %}" alt="Время">
+                                        <span id="preview-time">Время не указано</span>
+                                    </div>
+                                    <div>
+                                        <img src="{% static 'img/Локация.png' %}" alt="Локация">
+                                        <span id="preview-location">Адрес не указан</span>
+                                    </div>
+                                </div>
+                                <div class="preview-participants" id="preview-participants">
+                                    Участников: 0
+                                </div>
+                                <button class="preview-button">Подробнее</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="{% static 'js/event-create.js' %}"></script>
+{% endblock scripts %}

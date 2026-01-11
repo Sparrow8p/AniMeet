@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href={% static "css/meets.css" %}>{% endblock css %}
+
+{% block content %}
+    <main>
+        <div class="content-wrapper">
+            <aside class="sidebar">
+                <ul class="nav-menu">
+                    <li><a href={% url "persaccount:kalendar" %}>Календарь мероприятий</a></li>
+                    <li class="active"><a href="#">Мероприятия</a></li>
+                    <li><a href="#">Чаты</a></li>
+                    <li><a href={% url "users:lk_settings" %}>Настройки пользователя</a></li>
+                </ul>
+            </aside>
+            
+            <section class="main-content">
+                <div class="events-container">
+                    <div class="search-filters">
+                        <div class="search-group">
+                            <input type="text" placeholder="Поиск мероприятий" id="event-search">
+                        </div>
+                        
+                        <div class="filter-group">
+                            <input type="text" placeholder="Город" id="city-input">
+                        </div>
+                        <div class="filter-group">
+                            <select id="category-select">
+                                <option value="">Категория</option>
+                                <option value="viewing">Просмотр аниме</option>
+                                <option value="meetup">Встреча фанатов</option>
+                                <option value="cosplay">Косплей</option>
+                                <option value="festival">Фестиваль</option>
+                            </select>
+                        </div>
+
+                        <button class="search-button">Поиск</button>
+                    </div>
+
+                    <div class="events-list">
+
+    {% for meet in meets %}
+    <div class="event-card">
+        <div class="event-image">
+            <img src={{ meet.image.url }} alt={{ meet.name }}>
+        </div>
+        <div class="event-details">
+            <h3>{{ meet.name }}</h3>
+            <div class="event-meta">
+                <div>
+                    <img src={% static "img/Дата.png" %} alt="Дата">
+                    <span>{{ meet.date }}</span>
+                </div>
+                <div>
+                    <img src={% static "img/Время.png" %} alt="Время">
+                    <span>{{ meet.start_time }} - {{ meet.end_time }}</span>
+                </div>
+                <div>
+                    <img src={% static "img/Локация.png" %} alt="Локация">
+                    <span>{{ meet.address }}</span>
+                </div>
+            </div>
+            <div class="event-participants">
+                <span>Участников: {{ meet.participants_count }} из {{ meet.quantity }}</span>
+            </div>
+            <a class="event-button" href={% url "persaccount:meet_info" meet.slug %}>Подробнее</a>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% comment %} <!-- Мероприятие 1 -->
+    <div class="event-card">
+        <div class="event-image">
+            <img src={% static "img/titan-event.png" %} alt="Атака титанов">
+        </div>
+        <div class="event-details">
+            <h3>Просмотр фильма "Атака титанов: Заключительная глава"</h3>
+            <div class="event-meta">
+                <div>
+                    <img src={% static "img/Дата.png" %} alt="Дата">
+                    <span>18.05.2025</span>
+                </div>
+                <div>
+                    <img src={% static "img/Время.png" %} alt="Время">
+                    <span>18:30 - 21:00</span>
+                </div>
+                <div>
+                    <img src={% static "img/Локация.png" %} alt="Локация">
+                    <span>Санкт-Петербург, кинотеатр "Аврора"</span>
+                </div>
+            </div>
+            <div class="event-participants">
+                <span>Участников: 18 из 35</span>
+            </div>
+            <button class="event-button">Подробнее</button>
+        </div>
+    </div> 
+    <!-- Мероприятие 2 -->
+    <div class="event-card">
+        <div class="event-image">
+            <img src={% static "img/immortal-event.png" %} alt="Путешествия к бессмертию">
+        </div>
+        <div class="event-details">
+            <h3>Встреча фанатов "Путешествия к бессмертию"</h3>
+            <div class="event-meta">
+                <div>
+                    <img src={% static "img/Дата.png" %} alt="Дата">
+                    <span>18.07.2025</span>
+                </div>
+                <div>
+                    <img src={% static "img/Время.png" %} alt="Время">
+                    <span>18:00 - 22:27</span>
+                </div>
+                <div>
+                    <img src={% static "img/Локация.png" %} alt="Локация">
+                    <span>Екатеринбург, Кафе "МАЛО САХАРА"</span>
+                </div>
+            </div>
+            <div class="event-participants">
+                <span>Участников: 7 из 10</span>
+            </div>
+            <button class="event-button">Подробнее</button>
+        </div>
+    </div>
+
+    <!-- Мероприятие 3 -->
+    <div class="event-card">
+        <div class="event-image">
+            <img src={% static "img/aniworld-event.png" %} alt="Аниме-фестиваль">
+        </div>
+        <div class="event-details">
+            <h3>Аниме-фестиваль Antworld</h3>
+            <div class="event-meta">
+                <div>
+                    <img src={% static "img/Дата.png" %} alt="Дата">
+                    <span>21.06.2025</span>
+                </div>
+                <div>
+                    <img src={% static "img/Время.png" %} alt="Время">
+                    <span>12:00 - 21:00</span>
+                </div>
+                <div>
+                    <img src="{% static "img/Локация.png" %}" alt="Локация">
+                    <span>Москва, Новый Арбат, 21</span>
+                </div>
+            </div>
+            <div class="event-participants">
+                <span>Участников: 320 (ограничений нет)</span>
+            </div>
+            <button class="event-button">Подробнее</button>
+        </div>
+    </div>
+
+    <!-- Мероприятие 4 -->
+    <div class="event-card">
+        <div class="event-image">
+            <img src="{% static "img/cosplay-event.png" %}" alt="Мастер-класс по косплею">
+        </div>
+        <div class="event-details">
+            <h3>Мастер-класс по косплею</h3>
+            <div class="event-meta">
+                <div>
+                    <img src="{% static "img/Дата.png" %}" alt="Дата">
+                    <span>12.07.2025</span>
+                </div>
+                <div>
+                    <img src="{% static "img/Время.png" %}" alt="Время">
+                    <span>15:00 - 17:30</span>
+                </div>
+                <div>
+                    <img src="{% static "img/Локация.png" %}" alt="Локация">
+                    <span>Москва, Творческая студия "Акика"</span>
+                </div>
+            </div>
+            <div class="event-participants">
+                <span>Участников: 20 из 20 (мест нет)</span>
+            </div>
+            <button class="event-button">Подробнее</button>
+        </div>
+    </div> {% endcomment %}
+</div>
+                </div>
+            </section>
+        </div>
+    </main>
+{% endblock content %}
+
+{% block scripts %}<script src="{% static "js/events.js" %}"></script>{% endblock scripts %} 
