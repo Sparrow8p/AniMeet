@@ -2,6 +2,7 @@ asgiref==3.8.1
 Django==5.2.3
 pillow==11.2.1
 psycopg2==2.9.10
+psycopg2-binary==2.9.11
 six==1.17.0
 sqlparse==0.5.3
 transliterate==1.10.2

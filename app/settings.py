@@ -80,13 +80,17 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'AniMeet',
-        'USER': 'Sparrow8p',
-        'PASSWORD': '3454Cfcf',
-        'HOST': 'localhost',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': '4uaZv18DFBrnyeq8',
+        'HOST': 'db.scgekoyfayqwyxzvlfkw.supabase.co',
         'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
+
 
 
 # Password validation
